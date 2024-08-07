@@ -35,10 +35,21 @@ var _DefaultSortType = Storage.SortAsc
 
 // BeforeList is the command before the List command
 func BeforeList(c *cli.Context) error {
+	sortBy := Storage.SortByName
+	sortType := Storage.SortAsc
+
+	if c.String("sort-name") != "" {
+		sortBy = Storage.SortByName
+		sortType = Storage.SortType(c.String("sort-name"))
+	} else if c.String("sort-created") != "" {
+		sortBy = Storage.SortByTime
+		sortType = Storage.SortType(c.String("sort-created"))
+	}
+
 	args := &listArgs{
 		username: c.Args().Get(0),
-		sortBy:   Storage.SortBy(c.String("sort-by")),
-		sortType: Storage.SortType(c.String("sort-type")),
+		sortBy:   sortBy,
+		sortType: sortType,
 	}
 
 	if err := args.IsValid(); err != nil {
