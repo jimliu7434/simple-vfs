@@ -11,9 +11,9 @@ type UserData struct {
 	folders   map[string]FolderData
 }
 
-// AddFolder adds a new folder to the user
+// CreateFolder adds a new folder to the user
 // If the folder already exists, it returns an error
-func (u *UserData) AddFolder(f FolderData) error {
+func (u *UserData) CreateFolder(f FolderData) error {
 	// TODO
 	return nil
 }

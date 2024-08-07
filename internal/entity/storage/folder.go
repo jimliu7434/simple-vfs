@@ -11,9 +11,9 @@ type FolderData struct {
 	files     map[string]FileData
 }
 
-// AddFile adds a new File to the folder
+// CreateFile adds a new File to the folder
 // If the File already exists, it returns an error
-func (u *FolderData) AddFile(f FileData) error {
+func (u *FolderData) CreateFile(f FileData) error {
 	// TODO
 	return nil
 }

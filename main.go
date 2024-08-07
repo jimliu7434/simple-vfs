@@ -10,7 +10,7 @@ import (
 	filecmds "simple-vfs/internal/cmds/file"
 	foldercmds "simple-vfs/internal/cmds/folder"
 	usercmds "simple-vfs/internal/cmds/user"
-	Storage "simple-vfs/internal/storage"
+	Storage "simple-vfs/internal/entity/storage"
 )
 
 var templates *promptui.PromptTemplates
