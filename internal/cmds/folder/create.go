@@ -4,6 +4,7 @@ package folder
 import (
 	"context"
 	"fmt"
+	"strings"
 
 	"github.com/urfave/cli/v2"
 
@@ -30,11 +31,16 @@ func BeforeCreate(c *cli.Context) error {
 	args := &createArgs{
 		username:    c.Args().Get(0),
 		foldername:  c.Args().Get(1),
-		description: c.Args().Get(2), // optional
+		description: "",
 	}
 
 	if err := args.IsValid(); err != nil {
 		return err
+	}
+
+	descArgs := c.Args().Slice()
+	if len(descArgs) > 2 {
+		args.description = strings.Join(descArgs[2:], " ")
 	}
 
 	c.Context = context.WithValue(c.Context, argsKey, args)
