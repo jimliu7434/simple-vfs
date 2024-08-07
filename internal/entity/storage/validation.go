@@ -41,7 +41,7 @@ func IsValidFilename(filename string) bool {
 // "asc" or "desc" (ASC or DESC are also allowed)
 func IsValidSortType(sortType string) bool {
 	sortType = strings.ToLower(sortType)
-	if sortType != "asc" && sortType != "desc" {
+	if sortType != "" && sortType != "asc" && sortType != "desc" {
 		return false
 	}
 	return true
