@@ -18,7 +18,7 @@ func TestInfo(t *testing.T) {
 
 func TestWarn(t *testing.T) {
 	output := bytes.Buffer{}
-	logger.SetErrWriter(&output)
+	logger.SetOutWriter(&output)
 
 	logger.Warn("This is a test")
 	assert.Equal(t, "Warning: This is a test\n", output.String())
