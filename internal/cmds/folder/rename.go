@@ -30,9 +30,9 @@ func (args *renameArgs) IsValid() error {
 // BeforeRename is the command before the rename command
 func BeforeRename(c *cli.Context) error {
 	args := &renameArgs{
-		username:      c.Args().Get(1),
-		foldername:    c.Args().Get(2),
-		newfoldername: c.Args().Get(3),
+		username:      c.Args().Get(0),
+		foldername:    c.Args().Get(1),
+		newfoldername: c.Args().Get(2),
 	}
 
 	if err := args.IsValid(); err != nil {

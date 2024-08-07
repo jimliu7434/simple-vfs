@@ -41,8 +41,8 @@ var _DefaultSortType = Storage.SortAsc
 // BeforeList is the command before the List command
 func BeforeList(c *cli.Context) error {
 	args := &listArgs{
-		username:   c.Args().Get(1),
-		foldername: c.Args().Get(2),
+		username:   c.Args().Get(0),
+		foldername: c.Args().Get(1),
 		sortBy:     Storage.SortBy(c.String("sort-by")),
 		sortType:   Storage.SortType(c.String("sort-type")),
 	}
@@ -75,7 +75,8 @@ func ActionList(c *cli.Context) error {
 
 	// folder doesn't have any file warning
 	if len(files) == 0 {
-		return fmt.Errorf("folder %s is empty", args.foldername)
+		util.Warn("folder %s is empty", args.foldername)
+		return nil
 	}
 
 	// print result

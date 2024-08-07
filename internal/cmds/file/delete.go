@@ -30,9 +30,9 @@ func (args *deleteArgs) IsValid() error {
 // BeforeDelete is the command before the Delete command
 func BeforeDelete(c *cli.Context) error {
 	args := &deleteArgs{
-		username:   c.Args().Get(1),
-		foldername: c.Args().Get(2),
-		filename:   c.Args().Get(3),
+		username:   c.Args().Get(0),
+		foldername: c.Args().Get(1),
+		filename:   c.Args().Get(2),
 	}
 
 	if err := args.IsValid(); err != nil {

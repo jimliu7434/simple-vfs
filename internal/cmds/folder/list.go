@@ -36,7 +36,7 @@ var _DefaultSortType = Storage.SortAsc
 // BeforeList is the command before the List command
 func BeforeList(c *cli.Context) error {
 	args := &listArgs{
-		username: c.Args().Get(1),
+		username: c.Args().Get(0),
 		sortBy:   Storage.SortBy(c.String("sort-by")),
 		sortType: Storage.SortType(c.String("sort-type")),
 	}
@@ -63,7 +63,8 @@ func ActionList(c *cli.Context) error {
 	folders := user.ListFolders(args.sortBy, args.sortType)
 
 	if len(folders) == 0 {
-		return fmt.Errorf("user %s doesn't have any folder", args.username)
+		util.Warn("user %s doesn't have any folder", args.username)
+		return nil
 	}
 
 	// print result

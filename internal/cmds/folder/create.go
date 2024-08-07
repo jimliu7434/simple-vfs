@@ -28,9 +28,9 @@ func (args *createArgs) IsValid() error {
 // BeforeCreate is the command before the Create command
 func BeforeCreate(c *cli.Context) error {
 	args := &createArgs{
-		username:    c.Args().Get(1),
-		foldername:  c.Args().Get(2),
-		description: c.Args().Get(3), // optional
+		username:    c.Args().Get(0),
+		foldername:  c.Args().Get(1),
+		description: c.Args().Get(2), // optional
 	}
 
 	if err := args.IsValid(); err != nil {

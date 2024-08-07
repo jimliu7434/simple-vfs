@@ -33,10 +33,10 @@ func (args *createArgs) IsValid() error {
 // BeforeCreate is the command before the create command
 func BeforeCreate(c *cli.Context) error {
 	args := &createArgs{
-		username:    c.Args().Get(1),
-		foldername:  c.Args().Get(2),
-		filename:    c.Args().Get(3),
-		description: c.Args().Get(4), // optional
+		username:    c.Args().Get(0),
+		foldername:  c.Args().Get(1),
+		filename:    c.Args().Get(2),
+		description: c.Args().Get(3), // optional
 	}
 
 	if err := args.IsValid(); err != nil {

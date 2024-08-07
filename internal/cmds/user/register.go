@@ -26,7 +26,7 @@ func (args *createArgs) IsValid() error {
 // BeforeRegister is the command before the register command
 func BeforeRegister(c *cli.Context) error {
 	args := &createArgs{
-		username: c.Args().Get(1),
+		username: c.Args().Get(0),
 	}
 
 	if err := args.IsValid(); err != nil {
