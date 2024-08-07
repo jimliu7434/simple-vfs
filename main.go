@@ -3,7 +3,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 
 	"github.com/manifoldco/promptui"
@@ -13,6 +12,7 @@ import (
 	foldercmds "simple-vfs/internal/cmds/folder"
 	usercmds "simple-vfs/internal/cmds/user"
 	Storage "simple-vfs/internal/entity/storage"
+	"simple-vfs/internal/util"
 )
 
 var templates *promptui.PromptTemplates
@@ -33,16 +33,21 @@ func main() {
 	storage := Storage.New()
 
 	for {
-		if err := prompt(&storage); err != nil && err != ErrEmpty {
-			// print all errors here
-			fmt.Println(err.Error())
+		err := prompt(&storage)
+		if err != nil && err != ErrEmpty {
+			// check if error is ctrl+c
+			if err.Error() == "^C" {
+				util.Info("Goodbye!")
+				return
+			}
+			util.Error(err.Error())
 		}
 	}
 }
 
 func prompt(storage *Storage.Storage) error {
 	cmdPrompt := promptui.Prompt{
-		Label:     "context file location",
+		Label:     "#",
 		Templates: templates,
 	}
 
@@ -163,8 +168,9 @@ func prompt(storage *Storage.Storage) error {
 		},
 	}
 
-	return cliApp.Run(cmd)
+	return cliApp.Run(append([]string{"vfs"}, cmd...))
 }
 
 // TODO: add "find parent"
 // TODO: unit test
+// TODO: auto complete
