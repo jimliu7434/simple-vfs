@@ -14,13 +14,27 @@ func Info(format string, args ...any) {
 	if !strings.HasSuffix(format, "\n") {
 		format += "\n"
 	}
-	fmt.Printf(format, args...)
+	fmt.Fprintf(os.Stdout, format, args...)
 }
 
-// Error prints the message to the stderr
+// Warn prints the message to the stderr, with a prefix "Warning: "
+func Warn(format string, args ...any) {
+	if !strings.HasSuffix(format, "\n") {
+		format += "\n"
+	}
+	if !strings.HasPrefix(format, "Warning: ") {
+		format = "Warning: " + format
+	}
+	fmt.Fprintf(os.Stderr, format, args...)
+}
+
+// Error prints the message to the stderr, with a prefix "Error: "
 func Error(format string, args ...any) {
 	if !strings.HasSuffix(format, "\n") {
 		format += "\n"
+	}
+	if !strings.HasPrefix(format, "Error: ") {
+		format = "Error: " + format
 	}
 	fmt.Fprintf(os.Stderr, format, args...)
 }
