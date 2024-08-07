@@ -1,6 +1,32 @@
 package storage
 
-import "time"
+import (
+	"fmt"
+	"time"
+)
+
+// GetUser returns user data from the storage by username
+// If the user does not exist, it returns an error
+func (s *Storage) GetUser(username string) (*UserData, error) {
+	if u, ok := s.users[username]; ok {
+		return u, nil
+	}
+	return nil, fmt.Errorf("user %s doesn't exist", username)
+}
+
+// CreateUser creates a new user in the storage
+// If the user already exists, it returns an error
+func (s *Storage) CreateUser(username string) error {
+	if _, ok := s.users[username]; !ok {
+		s.users[username] = &UserData{
+			Name:      username,
+			CreatedAt: time.Now(),
+			folders:   map[string]*FolderData{},
+		}
+		return nil
+	}
+	return fmt.Errorf("user %s has already existed", username)
+}
 
 // UserData is the user data struct
 // It contains the username, create time of the user
@@ -8,33 +34,5 @@ import "time"
 type UserData struct {
 	Name      string
 	CreatedAt time.Time
-	folders   map[string]FolderData
-}
-
-// CreateFolder adds a new folder to the user
-// If the folder already exists, it returns an error
-func (u *UserData) CreateFolder(f FolderData) error {
-	// TODO
-	return nil
-}
-
-// DelFolder deletes a folder from the user
-// It also deletes all the files in the folder
-// If the folder does not exist, it returns an error
-func (u *UserData) DelFolder(foldername string) error {
-	// TODO
-	return nil
-}
-
-// RenameFolder renames a folder of the user
-// If the folder does not exist, it returns an error
-func (u *UserData) RenameFolder(oldname, newname string) error {
-	// TODO
-	return nil
-}
-
-// ListFolders lists all folders of the user
-func (u *UserData) ListFolders(foldername string, sortBy sortBy, sortType sortType) []FolderData {
-	// TODO
-	return []FolderData{}
+	folders   map[string]*FolderData // if need multi-threading, use sync.Map
 }

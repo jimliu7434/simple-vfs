@@ -1,6 +1,8 @@
+// Package: main is the package that contains the main function and the prompt function.
 package main
 
 import (
+	"errors"
 	"fmt"
 	"strings"
 
@@ -16,7 +18,7 @@ import (
 var templates *promptui.PromptTemplates
 
 // ErrEmpty is returned when the input is empty
-var ErrEmpty = fmt.Errorf("empty input")
+var ErrEmpty = errors.New("empty input")
 
 func init() {
 	templates = &promptui.PromptTemplates{
@@ -32,6 +34,7 @@ func main() {
 
 	for {
 		if err := prompt(&storage); err != nil && err != ErrEmpty {
+			// print all errors here
 			fmt.Println(err.Error())
 		}
 	}
@@ -162,3 +165,6 @@ func prompt(storage *Storage.Storage) error {
 
 	return cliApp.Run(cmd)
 }
+
+// TODO: add "find parent"
+// TODO: unit test
