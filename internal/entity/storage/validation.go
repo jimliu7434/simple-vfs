@@ -18,7 +18,7 @@ func IsValidUsername(username string) bool {
 // IsValidFoldername check if string not containes any special characters
 // and is between 1 and 50 characters long
 func IsValidFoldername(foldername string) bool {
-	// TODO: allowd some symbols
+	// TODO: allow some symbols
 	rgex := regexp.MustCompile(`^[a-zA-Z0-9_]{1,50}$`)
 	if !rgex.MatchString(foldername) {
 		return false
@@ -29,7 +29,7 @@ func IsValidFoldername(foldername string) bool {
 // IsValidFilename check if string not containes any special characters
 // and is between 1 and 50 characters long
 func IsValidFilename(filename string) bool {
-	// TODO: allowd some symbols
+	// TODO: allow some symbols
 	rgex := regexp.MustCompile(`^[a-zA-Z0-9_]{1,50}$`)
 	if !rgex.MatchString(filename) {
 		return false
