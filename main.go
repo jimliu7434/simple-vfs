@@ -172,5 +172,3 @@ func prompt(storage *Storage.Storage) error {
 }
 
 // TODO: add "find parent"
-// TODO: unit test
-// TODO: auto complete
