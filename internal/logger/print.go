@@ -24,7 +24,7 @@ func Warn(format string, args ...any) {
 	if !strings.HasPrefix(format, "Warning: ") {
 		format = "Warning: " + format
 	}
-	fmt.Fprintf(errWriter, format, args...)
+	fmt.Fprintf(outWriter, format, args...)
 }
 
 // Error prints the message to the stderr, with a prefix "Error: "
