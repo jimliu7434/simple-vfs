@@ -3,7 +3,6 @@ package logger
 
 import (
 	"fmt"
-	"os"
 	"strings"
 
 	"github.com/gosuri/uitable"
@@ -14,7 +13,7 @@ func Info(format string, args ...any) {
 	if !strings.HasSuffix(format, "\n") {
 		format += "\n"
 	}
-	fmt.Fprintf(os.Stdout, format, args...)
+	fmt.Fprintf(outWriter, format, args...)
 }
 
 // Warn prints the message to the stderr, with a prefix "Warning: "
@@ -25,7 +24,7 @@ func Warn(format string, args ...any) {
 	if !strings.HasPrefix(format, "Warning: ") {
 		format = "Warning: " + format
 	}
-	fmt.Fprintf(os.Stderr, format, args...)
+	fmt.Fprintf(errWriter, format, args...)
 }
 
 // Error prints the message to the stderr, with a prefix "Error: "
@@ -36,7 +35,7 @@ func Error(format string, args ...any) {
 	if !strings.HasPrefix(format, "Error: ") {
 		format = "Error: " + format
 	}
-	fmt.Fprintf(os.Stderr, format, args...)
+	fmt.Fprintf(errWriter, format, args...)
 }
 
 // Table prints the table to the stdout
@@ -48,4 +47,6 @@ func Table(rows [][]any) {
 	for _, row := range rows {
 		table.AddRow(row...)
 	}
+
+	fmt.Fprintln(outWriter, table)
 }
