@@ -6,6 +6,11 @@ import (
 
 	"github.com/manifoldco/promptui"
 	"github.com/urfave/cli/v2"
+
+	filecmds "simple-vfs/internal/cmds/file"
+	foldercmds "simple-vfs/internal/cmds/folder"
+	usercmds "simple-vfs/internal/cmds/user"
+	Storage "simple-vfs/internal/storage"
 )
 
 var templates *promptui.PromptTemplates
@@ -23,14 +28,16 @@ func init() {
 }
 
 func main() {
+	storage := Storage.New()
+
 	for {
-		if err := prompt(); err != nil && err != ErrEmpty {
+		if err := prompt(&storage); err != nil && err != ErrEmpty {
 			fmt.Println(err.Error())
 		}
 	}
 }
 
-func prompt() error {
+func prompt(storage *Storage.Storage) error {
 	cmdPrompt := promptui.Prompt{
 		Label:     "context file location",
 		Templates: templates,
@@ -47,7 +54,6 @@ func prompt() error {
 
 	cmd := strings.Split(cmdStr, " ")
 
-	// TODO: Add the command to the cli app
 	cliApp := &cli.App{
 		Name:  "vfs",
 		Usage: "a simple virtual file system",
@@ -58,15 +64,8 @@ func prompt() error {
 				Category:  "User",
 				Args:      true,
 				ArgsUsage: "[username]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-					return nil
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the register command
-					return nil
-				},
+				Before:    usercmds.BeforeRegister,
+				Action:    usercmds.ActionRegister,
 			},
 			{
 				Name:      "create-folder",
@@ -74,17 +73,8 @@ func prompt() error {
 				Category:  "Folder",
 				Args:      true,
 				ArgsUsage: "[username] [foldername] [description?]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-					//foldername := c.Args().Get(2)
-					//description := c.Args().Get(3) // optional
-					return nil
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the create-folder command
-					return nil
-				},
+				Before:    foldercmds.BeforeCreate,
+				Action:    foldercmds.ActionCreate,
 			},
 			{
 				Name:      "delete-folder",
@@ -92,16 +82,8 @@ func prompt() error {
 				Category:  "Folder",
 				Args:      true,
 				ArgsUsage: "[username] [foldername]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-					//foldername := c.Args().Get(2)
-					return nil
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the delete-folder command
-					return nil
-				},
+				Before:    foldercmds.BeforeDelete,
+				Action:    foldercmds.ActionDelete,
 			},
 			{
 				Name:      "list-folders",
@@ -109,12 +91,8 @@ func prompt() error {
 				Category:  "Folder",
 				Args:      true,
 				ArgsUsage: "[username] [--sort-name|sort-created asc|desc]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-
-					return nil
-				},
+				Before:    foldercmds.BeforeList,
+				Action:    foldercmds.ActionList,
 				Flags: []cli.Flag{
 					&cli.StringFlag{
 						Name:        "sort-name",
@@ -126,10 +104,6 @@ func prompt() error {
 						Usage:       "sort folders by created date, asc | desc",
 						DefaultText: "asc",
 					},
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the list-folders command
-					return nil
 				},
 			},
 			{
@@ -138,17 +112,8 @@ func prompt() error {
 				Category:  "Folder",
 				Args:      true,
 				ArgsUsage: "[username] [foldername] [new-folder-name]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-					//foldername := c.Args().Get(2)
-					//newfoldername := c.Args().Get(3)
-					return nil
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the rename-folder command
-					return nil
-				},
+				Before:    foldercmds.BeforeRename,
+				Action:    foldercmds.ActionRename,
 			},
 			{
 				Name:      "create-file",
@@ -156,17 +121,8 @@ func prompt() error {
 				Category:  "File",
 				Args:      true,
 				ArgsUsage: "[username] [foldername] [filename] [description?]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-					//foldername := c.Args().Get(2)
-					//description := c.Args().Get(3) // optional
-					return nil
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the create-file command
-					return nil
-				},
+				Before:    filecmds.BeforeCreate,
+				Action:    filecmds.ActionCreate,
 			},
 			{
 				Name:      "delete-file",
@@ -174,31 +130,17 @@ func prompt() error {
 				Category:  "File",
 				Args:      true,
 				ArgsUsage: "[username] [foldername] [filename]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					//username := c.Args().Get(1)
-					//foldername := c.Args().Get(2)
-					//filename := c.Args().Get(3)
-					return nil
-				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the delete-file command
-					return nil
-				},
+				Before:    filecmds.BeforeDelete,
+				Action:    filecmds.ActionDelete,
 			},
 			{
 				Name:      "list-files",
-				Usage:     "list all files",
+				Usage:     "list all files in a folder",
 				Category:  "File",
 				Args:      true,
 				ArgsUsage: "[username] [foldername] [--sort-name|sort-created asc|desc]",
-				Before: func(c *cli.Context) error {
-					// FIXME: Add validation
-					// username := c.Args().Get(1)
-					// foldername := c.Args().Get(2)
-
-					return nil
-				},
+				Before:    filecmds.BeforeList,
+				Action:    filecmds.ActionList,
 				Flags: []cli.Flag{
 					&cli.StringFlag{
 						Name:        "sort-name",
@@ -211,11 +153,10 @@ func prompt() error {
 						DefaultText: "asc",
 					},
 				},
-				Action: func(c *cli.Context) error {
-					// FIXME: Add the list-files command
-					return nil
-				},
 			},
+		},
+		Metadata: map[string]any{
+			"storage": storage,
 		},
 	}
 
