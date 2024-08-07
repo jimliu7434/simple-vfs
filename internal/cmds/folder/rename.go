@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 
 	"github.com/urfave/cli/v2"
 )
@@ -58,7 +58,7 @@ func ActionRename(c *cli.Context) error {
 		return err
 	}
 
-	util.Info("rename %s to %s successfully", args.foldername, args.newfoldername)
+	logger.Info("rename %s to %s successfully", args.foldername, args.newfoldername)
 
 	return nil
 }

@@ -12,7 +12,7 @@ import (
 	foldercmds "simple-vfs/internal/cmds/folder"
 	usercmds "simple-vfs/internal/cmds/user"
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 )
 
 var templates *promptui.PromptTemplates
@@ -37,10 +37,10 @@ func main() {
 		if err != nil && err != ErrEmpty {
 			// check if error is ctrl+c
 			if err.Error() == "^C" {
-				util.Info("Goodbye!")
+				logger.Info("Goodbye!")
 				return
 			}
-			util.Error(err.Error())
+			logger.Error(err.Error())
 		}
 	}
 }

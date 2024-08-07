@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 
 	"github.com/urfave/cli/v2"
 )
@@ -62,7 +62,7 @@ func ActionDelete(c *cli.Context) error {
 		return err
 	}
 
-	util.Info("delete file %s in %s/%s successfully", args.filename, args.username, args.foldername)
+	logger.Info("delete file %s in %s/%s successfully", args.filename, args.username, args.foldername)
 
 	return nil
 }

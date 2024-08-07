@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 
 	"github.com/urfave/cli/v2"
 )
@@ -63,7 +63,7 @@ func ActionList(c *cli.Context) error {
 	folders := user.ListFolders(args.sortBy, args.sortType)
 
 	if len(folders) == 0 {
-		util.Warn("user %s doesn't have any folder", args.username)
+		logger.Warn("user %s doesn't have any folder", args.username)
 		return nil
 	}
 
@@ -80,7 +80,7 @@ func ActionList(c *cli.Context) error {
 			},
 		)
 	}
-	util.Table(printRows)
+	logger.Table(printRows)
 
 	return nil
 }

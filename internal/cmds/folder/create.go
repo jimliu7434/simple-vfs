@@ -8,7 +8,7 @@ import (
 	"github.com/urfave/cli/v2"
 
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 )
 
 type createArgs struct {
@@ -56,7 +56,7 @@ func ActionCreate(c *cli.Context) error {
 		return err
 	}
 
-	util.Info("create folder %s successfully", args.foldername)
+	logger.Info("create folder %s successfully", args.foldername)
 
 	return nil
 }

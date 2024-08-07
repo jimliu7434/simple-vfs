@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 
 	"github.com/urfave/cli/v2"
 )
@@ -75,7 +75,7 @@ func ActionList(c *cli.Context) error {
 
 	// folder doesn't have any file warning
 	if len(files) == 0 {
-		util.Warn("folder %s is empty", args.foldername)
+		logger.Warn("folder %s is empty", args.foldername)
 		return nil
 	}
 
@@ -93,7 +93,7 @@ func ActionList(c *cli.Context) error {
 			},
 		)
 	}
-	util.Table(printRows)
+	logger.Table(printRows)
 
 	return nil
 }

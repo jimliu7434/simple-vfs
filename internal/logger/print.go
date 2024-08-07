@@ -1,5 +1,5 @@
-// Package util is the package that contains the utility functions.
-package util
+// Package logger is the package that contains the utility functions.
+package logger
 
 import (
 	"fmt"

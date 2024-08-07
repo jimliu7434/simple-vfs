@@ -3,7 +3,7 @@ package folder
 import (
 	"context"
 	Storage "simple-vfs/internal/entity/storage"
-	"simple-vfs/internal/util"
+	"simple-vfs/internal/logger"
 
 	"github.com/urfave/cli/v2"
 )
@@ -51,7 +51,7 @@ func ActionDelete(c *cli.Context) error {
 		return err
 	}
 
-	util.Info("delete folder %s successfully", args.foldername)
+	logger.Info("delete folder %s successfully", args.foldername)
 
 	return nil
 }
