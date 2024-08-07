@@ -13,6 +13,7 @@ func (u *FolderData) CreateFile(filename, desc string) error {
 			Name:        filename,
 			Description: desc,
 			CreatedAt:   time.Now(),
+			Folder:      u,
 		}
 		return nil
 	}
@@ -55,6 +56,7 @@ type FileData struct {
 	Name        string
 	Description string
 	CreatedAt   time.Time
+	Folder      *FolderData
 }
 
 // GetName returns the name of the file

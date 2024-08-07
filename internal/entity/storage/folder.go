@@ -23,6 +23,7 @@ func (u *UserData) CreateFolder(foldername, desc string) error {
 			Description: desc,
 			CreatedAt:   time.Now(),
 			files:       map[string]*FileData{},
+			Owner:       u,
 		}
 		return nil
 	}
@@ -87,6 +88,7 @@ type FolderData struct {
 	Description string
 	CreatedAt   time.Time
 	files       map[string]*FileData // if need multi-threading, use sync.Map
+	Owner       *UserData
 }
 
 // GetName returns the name of the folder
