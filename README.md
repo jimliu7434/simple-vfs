@@ -265,3 +265,19 @@ simple-vfs
 * `[foldername]` can use any **alphanumeric** characters and underscores, and must be **1 to 50** characters long (and so as `[newfoldername]`)
 * `[filename]` can use any **alphanumeric** characters and underscores, and must be **1 to 50** characters long
 * press `Ctrl + C` to exit the program (or `Cmd + C` on macOS)
+
+## 測試
+
+1. 確保您已安裝 [Go](https://golang.org/doc/install)，版本 `1.22`。
+2. 進入專案目錄並執行測試：
+
+    ```sh
+    go test -cover ./...
+    ```
+
+3. 產出測試覆蓋率報告：
+
+    ```sh
+    go test -coverprofile=coverage.out ./...
+    go tool cover -html=coverage.out
+    ```
