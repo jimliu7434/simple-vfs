@@ -2,7 +2,6 @@ package file
 
 import (
 	"context"
-	"fmt"
 	Storage "simple-vfs/internal/entity/storage"
 	"simple-vfs/internal/logger"
 
@@ -20,9 +19,9 @@ func (args *deleteArgs) IsValid() error {
 	// 	return fmt.Errorf("Invalid foldername %s", args.foldername)
 	// }
 
-	if !Storage.IsValidFilename(args.filename) {
-		return fmt.Errorf("Invalid filename %s", args.foldername)
-	}
+	// if !Storage.IsValidFilename(args.filename) {
+	// 	return fmt.Errorf("Invalid filename %s", args.foldername)
+	// }
 
 	return nil
 }
