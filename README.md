@@ -4,6 +4,21 @@ A simple virtual file system that can be used to store files in memory.
 
 ## 目錄結構
 
+```text
+simple-vfs
+├── README.md
+├── main.go         # 程式進入點
+├── go.mod
+├── go.sum
+└── internal
+    ├── cmds        # 命令處理函式
+    │   ├── file      # 命令 category: file
+    │   ├── folder    # 命令 category: folder
+    │   └── user      # 命令 category: user
+    ├── entity      # 實體物件定義
+    │   └── storage   # 儲存體物件定義
+    └── logger      # 日誌輸出
+```
 
 ## 編譯
 
