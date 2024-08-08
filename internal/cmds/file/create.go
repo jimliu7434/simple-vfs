@@ -25,7 +25,7 @@ func (args *createArgs) IsValid() error {
 	// }
 
 	if !Storage.IsValidFilename(args.filename) {
-		return fmt.Errorf("filename %s contains invalid chars", args.foldername)
+		return fmt.Errorf("filename %s contains invalid chars", args.filename)
 	}
 
 	return nil

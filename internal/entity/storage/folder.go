@@ -28,7 +28,7 @@ func (u *UserData) CreateFolder(foldername, desc string) error {
 		return nil
 	}
 
-	return fmt.Errorf("folder %s has already exist", foldername)
+	return fmt.Errorf("folder %s has already existed", foldername)
 }
 
 // DelFolder deletes a folder from the user
@@ -47,7 +47,7 @@ func (u *UserData) DelFolder(foldername string) error {
 // If the new folder name already exists, it returns an error
 func (u *UserData) RenameFolder(oldname, newname string) error {
 	if _, ok := u.folders[newname]; ok {
-		return fmt.Errorf("folder %s has already exist", newname)
+		return fmt.Errorf("folder %s has already existed", newname)
 	}
 
 	if f, ok := u.folders[oldname]; ok {
