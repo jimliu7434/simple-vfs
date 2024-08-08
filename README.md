@@ -22,8 +22,8 @@ simple-vfs
 
 ## 編譯
 
-1. 確保您已安裝 [Go](https://golang.org/doc/install)，版本 `1.22`。
-2. 克隆此儲存庫：
+1. 確保您已安裝 [Go](https://golang.org/doc/install)，版本 `1.20` 以上。
+2. git clone
 
     ```sh
     git clone https://github.com/jimliu7434/simple-vfs.git
@@ -48,7 +48,7 @@ simple-vfs
 
 #### > `register` [username]
 
-註冊一個新用戶
+註冊一個新用戶  
 
 * Arguments
   * `username` - 用戶名稱 (必填) (英數字組合，長度 3~20 字元)
@@ -69,7 +69,7 @@ simple-vfs
 
 #### > `create-folder` [username] [foldername] [description?]
 
-在指定的用戶資料中，創建一個新資料夾
+在指定的用戶資料中，創建一個新資料夾  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -91,7 +91,7 @@ simple-vfs
   
 #### > `delete-folder` [username] [foldername]
 
-在指定的用戶資料中，刪除一個資料夾
+在指定的用戶資料中，刪除一個資料夾  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -112,7 +112,7 @@ simple-vfs
   
 #### > `rename-folder` [username] [foldername] [newfoldername]
 
-在指定的用戶資料中，重新命名一個資料夾
+在指定的用戶資料中，重新命名一個資料夾  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -135,11 +135,11 @@ simple-vfs
   
 #### > `list-folders` [username] [--sort-name asc|desc] [--sort-created asc|desc]
 
-列出指定用戶的所有資料夾
-可選擇依照名稱或建立時間排序，預設為名稱 + 升冪排序
+列出指定用戶的所有資料夾  
+可選擇依照名稱或建立時間排序，預設為 **名稱 + 升冪排序**  
 
-當 `--sort-name` 與 `--sort-created` 同時存在時，以 `--sort-name` 為主
-當 `--sort-name` 或 `--sort-created` 不存在時，預設為 `--sort-name asc`
+當 `--sort-name` 與 `--sort-created` 同時存在時，以 `--sort-name` 為主  
+當 `--sort-name` 或 `--sort-created` 不存在時，預設為 `--sort-name asc`  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -173,7 +173,7 @@ simple-vfs
 
 #### > `create-file` [username] [foldername] [filename] [description?]
 
-在指定的用戶資料夾創建一個新檔案
+在指定的用戶資料夾創建一個新檔案  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -197,7 +197,7 @@ simple-vfs
   
 #### > `delete-file` [username] [foldername] [filename]
 
-在指定的用戶資料夾刪除一個檔案
+在指定的用戶資料夾刪除一個檔案  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -219,11 +219,11 @@ simple-vfs
   
 #### > `list-files` [username] [foldername] [--sort-name asc|desc] [--sort-created asc|desc]
 
-列出指定用戶指定資料夾內的所有檔案
-可選擇依照名稱或建立時間排序，預設為名稱 + 升冪排序
+列出指定用戶指定資料夾內的所有檔案  
+可選擇依照名稱或建立時間排序，預設為 **名稱 + 升冪排序**  
 
-當 `--sort-name` 與 `--sort-created` 同時存在時，以 `--sort-name` 為主
-當 `--sort-name` 或 `--sort-created` 不存在時，預設為 `--sort-name asc`
+當 `--sort-name` 與 `--sort-created` 同時存在時，以 `--sort-name` 為主  
+當 `--sort-name` 或 `--sort-created` 不存在時，預設為 `--sort-name asc`  
 
 * Arguments
   * `username` - 用戶名稱 (必填)
@@ -268,7 +268,7 @@ simple-vfs
 
 ## 測試
 
-1. 確保您已安裝 [Go](https://golang.org/doc/install)，版本 `1.22`。
+1. 確認已安裝 [Go](https://golang.org/doc/install)，版本 `1.20` 以上。
 2. 進入專案目錄並執行測試：
 
     ```sh
