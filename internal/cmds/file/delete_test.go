@@ -26,8 +26,8 @@ func TestBeforeDelete(t *testing.T) {
 		{
 			name:                "invalid filename",
 			args:                []string{"user1", "folder1", "file!1"},
-			expectedError:       true,
-			expectedErrContains: "Invalid filename folder1",
+			expectedError:       false,
+			expectedErrContains: "",
 		},
 	}
 

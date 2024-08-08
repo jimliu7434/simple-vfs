@@ -71,7 +71,7 @@ func TestCreateFolder(t *testing.T) {
 		if err == nil {
 			t.Errorf("CreateFolder() failed, err is nil")
 		}
-		assert.Contains(t, "folder folder1 has already exist", err.Error())
+		assert.Contains(t, "folder folder1 has already existed", err.Error())
 	})
 }
 
@@ -132,7 +132,7 @@ func TestRenameFolder(t *testing.T) {
 		if err == nil {
 			t.Errorf("RenameFolder() failed, err is nil")
 		}
-		assert.Contains(t, "folder folder1 has already exist", err.Error())
+		assert.Contains(t, "folder folder1 has already existed", err.Error())
 	})
 
 	t.Run("old folder exist", func(t *testing.T) {

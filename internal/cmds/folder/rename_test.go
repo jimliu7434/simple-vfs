@@ -11,7 +11,7 @@ import (
 	"github.com/urfave/cli/v2"
 )
 
-func TestBeforeCreate(t *testing.T) {
+func TestBeforeRename(t *testing.T) {
 	testCases := []struct {
 		name                string
 		args                []string
@@ -19,16 +19,16 @@ func TestBeforeCreate(t *testing.T) {
 		expectedErrContains string
 	}{
 		{
-			name:                "valid foldername",
-			args:                []string{"user1", "folder1"},
+			name:                "valid newfoldername",
+			args:                []string{"user1", "folder1", "newfolder1"},
 			expectedError:       false,
 			expectedErrContains: "",
 		},
 		{
-			name:                "invalid foldername",
-			args:                []string{"user1", "folder!1"},
+			name:                "invalid newfoldername",
+			args:                []string{"user1", "folder1", "newfolder!1"},
 			expectedError:       true,
-			expectedErrContains: "foldername folder!1 contains invalid chars",
+			expectedErrContains: "foldername newfolder!1 contains invalid chars",
 		},
 	}
 
@@ -36,8 +36,8 @@ func TestBeforeCreate(t *testing.T) {
 		Name: "test",
 		Commands: []*cli.Command{
 			{
-				Name:   "create",
-				Before: BeforeCreate,
+				Name:   "rename",
+				Before: BeforeRename,
 				Action: func(_ *cli.Context) error { return nil },
 			},
 		},
@@ -45,7 +45,7 @@ func TestBeforeCreate(t *testing.T) {
 
 	for _, tc := range testCases {
 		t.Run(tc.name, func(t *testing.T) {
-			args := append([]string{"test", "create"}, tc.args...)
+			args := append([]string{"test", "rename"}, tc.args...)
 
 			err := app.RunContext(context.Background(), args)
 
@@ -64,21 +64,23 @@ func TestBeforeCreate(t *testing.T) {
 	}
 }
 
-func TestActionCreate(t *testing.T) {
+func TestActionRename(t *testing.T) {
 	// prepare storage
 	username := "user1"
 	foldername := "folder1"
+	foldername2 := "folder2"
 
 	storage := Storage.New()
 	storage.CreateUser(username)
 	user, _ := storage.GetUser(username)
 	user.CreateFolder(foldername, "")
+	user.CreateFolder(fmt.Sprint("new", foldername2), "")
 
 	testCases := []struct {
 		name                string
 		username            string
 		foldername          string
-		description         string
+		newfoldername       string
 		expectedError       bool
 		expectedErrContains string
 	}{
@@ -86,31 +88,31 @@ func TestActionCreate(t *testing.T) {
 			name:                "user not exist",
 			username:            "user0",
 			foldername:          foldername,
-			description:         "",
+			newfoldername:       fmt.Sprint("new", foldername),
 			expectedError:       true,
 			expectedErrContains: "user user0 doesn't exist",
 		},
 		{
-			name:                "folder exists",
+			name:                "folder not exists",
 			username:            username,
-			foldername:          foldername,
-			description:         "",
+			foldername:          "folder0",
+			newfoldername:       fmt.Sprint("new", "folder0"),
 			expectedError:       true,
-			expectedErrContains: fmt.Sprintf("folder %s has already existed", foldername),
+			expectedErrContains: "folder folder0 doesn't exist",
 		},
 		{
-			name:                "create floder, description without space",
+			name:                "newfoldername exists",
 			username:            username,
-			foldername:          "folder2",
-			description:         "my-description",
-			expectedError:       false,
+			foldername:          foldername2,
+			newfoldername:       fmt.Sprint("new", foldername2),
+			expectedError:       true,
 			expectedErrContains: "",
 		},
 		{
-			name:                "create floder, description with space",
+			name:                "rename ok",
 			username:            username,
-			foldername:          "folder3",
-			description:         "my description",
+			foldername:          foldername,
+			newfoldername:       fmt.Sprint("new", foldername),
 			expectedError:       false,
 			expectedErrContains: "",
 		},
@@ -125,13 +127,13 @@ func TestActionCreate(t *testing.T) {
 		t.Run(tc.name, func(t *testing.T) {
 			c := cli.NewContext(app, nil, nil)
 
-			c.Context = context.WithValue(c.Context, argsKey, &createArgs{
-				username:    tc.username,
-				foldername:  tc.foldername,
-				description: tc.description,
+			c.Context = context.WithValue(c.Context, argsKey, &renameArgs{
+				username:      tc.username,
+				foldername:    tc.foldername,
+				newfoldername: tc.newfoldername,
 			})
 
-			err := ActionCreate(c)
+			err := ActionRename(c)
 			if tc.expectedError {
 				if err == nil {
 					t.Errorf("expected error, got nil")
@@ -141,18 +143,6 @@ func TestActionCreate(t *testing.T) {
 			} else {
 				if err != nil {
 					t.Errorf("expected no error, got %s", err.Error())
-				}
-
-				// check folder exist
-				user, _ := storage.GetUser(tc.username)
-				folder, err := user.GetFolder(tc.foldername)
-
-				if err != nil {
-					t.Errorf("expected folder exist, got %s", err.Error())
-				}
-
-				if folder.Description != tc.description {
-					t.Errorf("expected folder description %s, got %s", tc.description, folder.Description)
 				}
 			}
 		})

@@ -28,7 +28,7 @@ func TestBeforeCreate(t *testing.T) {
 			name:                "invalid filename",
 			args:                []string{"user1", "folder1", "file!1"},
 			expectedError:       true,
-			expectedErrContains: "Invalid filename folder1",
+			expectedErrContains: "filename file!1 contains invalid chars",
 		},
 	}
 
@@ -37,7 +37,7 @@ func TestBeforeCreate(t *testing.T) {
 		Commands: []*cli.Command{
 			{
 				Name:   "create",
-				Before: BeforeDelete,
+				Before: BeforeCreate,
 				Action: func(_ *cli.Context) error { return nil },
 			},
 		},
