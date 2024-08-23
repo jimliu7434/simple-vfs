@@ -60,7 +60,7 @@ func prompt(storage *Storage.Storage) error {
 		return ErrEmpty
 	}
 
-	cmd := strings.Split(cmdStr, " ")
+	cmds := strings.Split(cmdStr, " ")
 
 	cliApp := &cli.App{
 		Name:  "vfs",
@@ -166,9 +166,22 @@ func prompt(storage *Storage.Storage) error {
 		Metadata: map[string]any{
 			"storage": storage,
 		},
+		CommandNotFound: func(c *cli.Context, cmd string) {
+			logger.Info("Command %s not found, some helps?\n\n", cmd)
+			c.App.Command("help").Run(c)
+		},
+		OnUsageError: func(c *cli.Context, err error, isSubcommand bool) error {
+			logger.Info("Usage error: %s", err.Error())
+			return nil
+		},
+		ExitErrHandler: func(c *cli.Context, err error) {
+			if err != nil {
+				logger.Error("%s", err.Error())
+			}
+		},
 	}
 
-	return cliApp.Run(append([]string{"vfs"}, cmd...))
+	return cliApp.Run(append([]string{"vfs"}, cmds...))
 }
 
 // TODO: add "find parent"
