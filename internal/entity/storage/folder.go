@@ -50,8 +50,9 @@ func (u *UserData) RenameFolder(oldname, newname string) error {
 		return fmt.Errorf("folder %s has already existed", newname)
 	}
 
-	if f, ok := u.folders[oldname]; ok {
-		u.folders[newname] = f
+	if _, ok := u.folders[oldname]; ok {
+		u.folders[newname] = u.folders[oldname]
+		u.folders[newname].Name = newname
 		delete(u.folders, oldname)
 		return nil
 	}
